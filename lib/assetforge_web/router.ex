@@ -20,10 +20,9 @@ defmodule AssetforgeWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AssetforgeWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", AssetforgeWeb do
+    pipe_through :api
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:assetforge, :dev_routes) do
