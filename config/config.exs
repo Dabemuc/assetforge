@@ -8,6 +8,7 @@
 import Config
 
 config :assetforge,
+  ecto_repos: [Assetforge.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
@@ -19,7 +20,7 @@ config :assetforge, AssetforgeWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Assetforge.PubSub,
-  live_view: [signing_salt: "BRDmJB18"]
+  live_view: [signing_salt: "8Wdznuij"]
 
 # Configures the mailer
 #
