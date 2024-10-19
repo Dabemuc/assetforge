@@ -108,6 +108,24 @@ function fetchData(container, symbols) {
               </div>
               <canvas class="sectorsChart"></canvas>
             </div>
+            <div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-md font-semibold">Net Expense Ratio</h4>
+                <span class="tooltip" title="This is the combined net expense ratio of the assets.">
+                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
+                </span>
+              </div>
+              <p class="net-expense-ratio">${data.net_expense_ratio * 100}%</p>
+            </div>
+            <div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-md font-semibold">Portfolio Turnover</h4>
+                <span class="tooltip" title="This indicates how much of the fund's investments are bought and sold each year.">
+                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
+                </span>
+              </div>
+              <p class="portfolio-turnover">${data.portfolio_turnover * 100}%</p>
+            </div>
           </div>
         `; // Add the canvas elements back for the new data
       renderCharts(data, fetchedDataDiv); // Pass the container for rendering charts
@@ -118,12 +136,6 @@ function fetchData(container, symbols) {
       fetchedDataDiv.innerHTML = `<p class="text-red-500">Error fetching data: ${error.message}</p>`;
     });
 }
-
-// document.getElementById("fetch-data").onclick = function () {
-//   const symbols = document.getElementById("symbols-input").value;
-//   const container = this.closest(".carousel-container");
-//   fetchData(container, symbols);
-// };
 
 function addContainer() {
   const carousel = document.getElementById("carousel");
@@ -165,6 +177,25 @@ function addContainer() {
             <canvas class="sectorsChart"></canvas>
           </div>
         </div>
+            <div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-md font-semibold">Net Expense Ratio</h4>
+                <span class="tooltip" title="This is the combined net expense ratio of the assets.">
+                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
+                </span>
+              </div>
+              <p class="net-expense-ratio"></p>
+            </div>
+            <div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-md font-semibold">Portfolio Turnover</h4>
+                <span class="tooltip" title="This is a measuere of the average frequenzy in which assets within the etfs are traded.">
+                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
+                </span>
+              </div>
+              <p class="portfolio-turnover"></p>
+            </div>
+          </div>
       </div>
     `;
 

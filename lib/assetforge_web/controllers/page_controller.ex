@@ -33,6 +33,8 @@ defmodule AssetforgeWeb.PageController do
         "holdings" -> average_and_sort_holdings(v1, v2)
         "sectors" -> average_and_sort_sectors(v1, v2)
         "dividend_yield" -> average_dividend_yields(v1, v2)
+        "net_expense_ratio" -> average_net_expense_ratio(v1, v2)
+        "portfolio_turnover" -> average_portfolio_turnover(v1, v2)
         _ -> v1
       end
     end)
@@ -85,5 +87,13 @@ defmodule AssetforgeWeb.PageController do
 
   defp average_dividend_yields(yield1, yield2) do
     Decimal.div(Decimal.add(Decimal.new(yield1), Decimal.new(yield2)), 2)
+  end
+
+  defp average_net_expense_ratio(ratio1, ratio2) do
+    Decimal.div(Decimal.add(Decimal.new(ratio1), Decimal.new(ratio2)), 2)
+  end
+
+  defp average_portfolio_turnover(turnover1, turnover2) do
+    Decimal.div(Decimal.add(Decimal.new(turnover1), Decimal.new(turnover2)), 2)
   end
 end
