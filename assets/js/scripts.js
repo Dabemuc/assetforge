@@ -119,13 +119,13 @@ function fetchData(container, symbols) {
     });
 }
 
-document.getElementById("fetch-data").onclick = function () {
-  const symbols = document.getElementById("symbols-input").value;
-  const container = this.closest(".carousel-container");
-  fetchData(container, symbols);
-};
+// document.getElementById("fetch-data").onclick = function () {
+//   const symbols = document.getElementById("symbols-input").value;
+//   const container = this.closest(".carousel-container");
+//   fetchData(container, symbols);
+// };
 
-document.getElementById("add-container").onclick = function () {
+function addContainer() {
   const carousel = document.getElementById("carousel");
   const newContainer = document.createElement("div");
   newContainer.className =
@@ -175,4 +175,9 @@ document.getElementById("add-container").onclick = function () {
     const symbols = newContainer.querySelector("input").value;
     fetchData(newContainer, symbols);
   };
-};
+}
+
+document.getElementById("add-container").onclick = () => addContainer();
+
+// Add initial container
+addContainer();

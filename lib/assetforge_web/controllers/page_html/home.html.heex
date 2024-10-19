@@ -1,75 +1,16 @@
 <div class="p-4 flex justify-center h-screen">
-  <div class="flex overflow-x-auto space-x-4 pb-4 w-full max-w-5xl bg-gray-100 rounded-lg shadow-md h-full">
+  <div class="flex overflow-x-auto space-x-4 w-full bg-gray-100 rounded-lg shadow-md h-full">
     <!-- Carousel background -->
-    <div id="carousel" class="flex space-x-4 h-full">
-      <!-- Keep containers in full height -->
-      <div class="carousel-container min-w-[400px] max-w-[400px] border rounded-lg p-4 shadow-lg flex-shrink-0 flex flex-col h-full">
-        <!-- Fixed width -->
-        <h3 class="text-lg font-semibold mb-2">Enter Symbols</h3>
-        <input
-          type="text"
-          id="symbols-input"
-          class="border rounded p-2 mb-2"
-          placeholder="Enter symbols separated by commas (e.g., QQQ, SPY)"
-        />
-        <button id="fetch-data" class="bg-blue-500 text-white rounded p-2">Fetch Data</button>
-
-        <div
-          class="fetched-data mt-4 overflow-y-auto flex-grow"
-          id="fetched-data"
-          style="max-height: 100%;"
-        >
-          <div id="charts-container" class="flex flex-col space-y-4">
-            <div class="chart-section">
-              <div class="flex items-center mb-2">
-                <h4 class="text-md font-semibold">Asset Allocation</h4>
-                <span
-                  class="tooltip"
-                  title="This chart shows the distribution of your assets across different categories."
-                >
-                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-                </span>
-              </div>
-              <canvas class="assetAllocationChart"></canvas>
-            </div>
-            <div class="chart-section">
-              <div class="flex items-center mb-2">
-                <h4 class="text-md font-semibold">Holdings</h4>
-                <span
-                  class="tooltip"
-                  title="This chart displays the individual stocks or assets you own and their respective weights."
-                >
-                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-                </span>
-              </div>
-              <canvas class="holdingsChart"></canvas>
-            </div>
-            <div class="chart-section">
-              <div class="flex items-center mb-2">
-                <h4 class="text-md font-semibold">Sectors</h4>
-                <span
-                  class="tooltip"
-                  title="This chart illustrates the sectors in which your assets are invested."
-                >
-                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-                </span>
-              </div>
-              <canvas class="sectorsChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Placeholder for additional containers -->
-      <div class="carousel-container min-w-[400px] max-w-[400px] border rounded-lg p-4 shadow-lg flex-shrink-0 flex items-center justify-center h-full bg-gray-200">
-        <button id="add-container" class="bg-green-500 text-white rounded p-2">+</button>
-      </div>
+    <div id="carousel" class="flex space-x-4 h-full p-4">
       <!-- Additional containers will be added here -->
+
+      <!-- Placeholder for additional containers including add button -->
+      <div class="carousel-container min-w-[400px] max-w-[400px] border rounded-lg p-4 shadow-lg flex-shrink-0 flex items-center justify-center h-full bg-gray-200">
+        <button id="add-container" class="bg-green-500 text-white rounded px-8 py-3">+</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js">
 </script>
-<%!-- <script src="/js/scripts.js"> --%>
-<%!-- </script> --%>
-<%!-- <link rel="stylesheet" href="/css/styles.css" /> --%>
