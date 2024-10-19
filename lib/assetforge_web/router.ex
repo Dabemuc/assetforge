@@ -18,6 +18,7 @@ defmodule AssetforgeWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/fetch_data", PageController, :fetch_data
   end
 
   scope "/api", AssetforgeWeb do

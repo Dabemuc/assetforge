@@ -10,6 +10,14 @@ config :assetforge, Assetforge.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+# Configure database for alphavantage_elixir_client
+config :alphavantage_elixir_client, AlphavantageElixirClient.Repo,
+  database: "alphavantage_elixir_client",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost"
+
+config :alphavantage_elixir_client, ecto_repos: [AlphavantageElixirClient.Repo]
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
