@@ -4,8 +4,7 @@ defmodule AssetforgeWeb.PageController do
   alias AlphavantageElixirClient
 
   def home(conn, _params) do
-    data = AlphavantageElixirClient.fetch_etf_profile("QQQ", "demo")
-    render(conn, :home, layout: false, data: data)
+    render(conn, :home, layout: false)
   end
 
   def fetch_data(conn, %{"symbols" => symbols}) do
@@ -13,7 +12,12 @@ defmodule AssetforgeWeb.PageController do
 
     results =
       symbols_list
-      |> Enum.map(&AlphavantageElixirClient.fetch_etf_profile(&1, "demo"))
+      |> Enum.map(
+        &AlphavantageElixirClient.fetch_etf_profile(
+          &1,
+          Application.get_env(:alpha_api, :ALPHA_VANTAGE_API_KEY)
+        )
+      )
       |> Enum.reduce(%{}, fn data, acc ->
         merge_data(acc, data)
       end)
