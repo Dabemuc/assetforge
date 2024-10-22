@@ -68,8 +68,15 @@ function renderCharts(data, container) {
   });
 }
 
-function fetchData(container, symbols) {
-  fetch(`/fetch_data?symbols=${encodeURIComponent(symbols)}`)
+function fetchData(container, symbols, percentages) {
+  // Send symbols and adjusted percentages to the server
+  const params = new URLSearchParams();
+  symbols.forEach((symbol, index) => {
+    params.append("symbols[]", symbol);
+    params.append("percentages[]", percentages[index]);
+  });
+
+  fetch(`/fetch_data?${params.toString()}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -141,70 +148,57 @@ function addContainer() {
   const carousel = document.getElementById("carousel");
   const newContainer = document.createElement("div");
   newContainer.className =
-    "carousel-container min-w-[400px] max-w-[400px] border rounded-lg p-4 shadow-lg flex-shrink-0 flex flex-col h-full";
+    "carousel-container min-w-[400px] max-w-[400px] overflow-y-auto border rounded-lg p-4 shadow-lg flex-shrink-0 flex flex-col h-full";
 
   newContainer.innerHTML = `
-      <h3 class="text-lg font-semibold mb-2">Enter Symbols</h3>
-      <input type="text" placeholder="Enter symbols separated by commas (e.g., QQQ, SPY)" class="border rounded p-2 mb-2" />
-      <button class="fetch-data bg-blue-500 text-white rounded p-2">Fetch Data</button>
-      <div class="fetched-data mt-4 overflow-y-auto flex-grow" style="max-height: 100%;">
-        <div id="charts-container" class="flex flex-col space-y-4">
-          <div class="chart-section">
-            <div class="flex items-center mb-2">
-              <h4 class="text-md font-semibold">Asset Allocation</h4>
-              <span class="tooltip" title="This chart shows the distribution of your assets across different categories.">
-                <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-              </span>
-            </div>
-            <canvas class="assetAllocationChart"></canvas>
-          </div>
-          <div class="chart-section">
-            <div class="flex items-center mb-2">
-              <h4 class="text-md font-semibold">Holdings</h4>
-              <span class="tooltip" title="This chart displays the individual stocks or assets you own and their respective weights.">
-                <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-              </span>
-            </div>
-            <canvas class="holdingsChart"></canvas>
-          </div>
-          <div class="chart-section">
-            <div class="flex items-center mb-2">
-              <h4 class="text-md font-semibold">Sectors</h4>
-              <span class="tooltip" title="This chart illustrates the sectors in which your assets are invested.">
-                <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-              </span>
-            </div>
-            <canvas class="sectorsChart"></canvas>
-          </div>
-        </div>
-            <div>
-              <div class="flex items-center mb-2">
-                <h4 class="text-md font-semibold">Net Expense Ratio</h4>
-                <span class="tooltip" title="This is the combined net expense ratio of the assets.">
-                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-                </span>
-              </div>
-              <p class="net-expense-ratio"></p>
-            </div>
-            <div>
-              <div class="flex items-center mb-2">
-                <h4 class="text-md font-semibold">Portfolio Turnover</h4>
-                <span class="tooltip" title="This is a measuere of the average frequenzy in which assets within the etfs are traded.">
-                  <span class="text-gray-500 ml-2 cursor-pointer">?</span>
-                </span>
-              </div>
-              <p class="portfolio-turnover"></p>
-            </div>
-          </div>
+      <h3 class="text-lg font-semibold mb-2">Enter Symbols and Percentages</h3>
+      <div class="input-pair flex justify-start">
+        <input type="text" placeholder="Symbol" class="symbol border rounded p-2 mb-2 mr-2 w-1/3" />
+        <input type="number" placeholder="Percentage" value="100" class="percentage border rounded p-2 mb-2 w-1/3" />
       </div>
+      <button class="add-input bg-blue-500 text-white rounded p-2">Add Another</button>
+      <button class="fetch-data bg-blue-500 text-white rounded p-2 mt-2">Fetch Data</button>
+      <div class="fetched-data mt-4 flex-grow" style="max-height: 100%;"></div>
     `;
 
-  carousel.insertBefore(newContainer, carousel.lastElementChild); // Add before the plus button
+  carousel.insertBefore(newContainer, carousel.lastElementChild);
 
-  // Add event listener for fetch button in new container
+  // Event listener for adding more inputs
+  newContainer.querySelector(".add-input").onclick = function () {
+    const inputPair = document.createElement("div");
+    inputPair.className = "input-pair flex justify-start";
+    inputPair.innerHTML = `
+      <input type="text" placeholder="Symbol" class="symbol border rounded p-2 mb-2 mr-2 w-1/3" />
+      <input type="number" placeholder="Percentage" class="percentage border rounded p-2 mb-2 w-1/3" />
+    `;
+    newContainer.insertBefore(
+      inputPair,
+      newContainer.querySelector(".add-input"),
+    );
+  };
+
+  // Fetch data on button click
   newContainer.querySelector(".fetch-data").onclick = function () {
-    const symbols = newContainer.querySelector("input").value;
-    fetchData(newContainer, symbols);
+    const pairs = Array.from(newContainer.querySelectorAll(".input-pair"));
+    const symbols = pairs.map((pair) =>
+      pair.querySelector(".symbol").value.trim(),
+    );
+    const percentages = pairs.map((pair) =>
+      parseFloat(pair.querySelector(".percentage").value.trim()),
+    );
+
+    const total = percentages.reduce((a, b) => a + b, 0);
+    if (total > 100) {
+      alert("Total percentage cannot exceed 100%");
+      return;
+    }
+
+    // Adjust percentages to make sure they total 100%
+    const adjustedPercentages = percentages.map((p, i) =>
+      i === percentages.length - 1 ? 100 - (total - p) : p,
+    );
+
+    fetchData(newContainer, symbols, adjustedPercentages);
   };
 }
 
